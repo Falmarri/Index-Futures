@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/BACKGROUND"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:background="#FFFFFF">
+
+
+
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:orientation="horizontal">
+  
+  
+  
+ 	 <TextView android:id="@+id/TICKER"
+         android:layout_width="120dip"
+         android:layout_height="wrap_content"
+         android:textColor="#000000"
+         
+         android:text="Ticker"/>
+ 
+     <TextView android:id="@+id/VALUE"
+         android:layout_width="90dip"
+         android:layout_height="wrap_content" android:layout_weight="1"
+         
+         android:textColor="#000000"
+         android:text="At"/>
+ 
+     <TextView android:id="@+id/CHANGE"
+         android:layout_width="70dip"
+         android:layout_height="wrap_content"  android:layout_weight="1"
+         
+         android:textColor="#000000"
+         android:text="Change"/>
+  
+  
+  
+  
+</LinearLayout>
+
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content">
+  
+  	<TextView
+  	android:id="@+id/TIME"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:textColor="#666666"
+  	android:text="Updated"
+  	/>
+
+  
+</LinearLayout>
+
+
+
+</LinearLayout>
