@@ -1,13 +1,13 @@
 package com.falmarri.futures;
 
 import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -30,7 +30,7 @@ public class Futures extends ListActivity {
 
 	private static final int MENU_REFRESH = Menu.FIRST;
 	private static final int DIALOG_SELECT_INDICES = 2;
-	private static final int SELECT_INDICES = 3;
+	//private static final int SELECT_INDICES = 3;
 
 	public static final String TAG = "Futures";
 
@@ -53,15 +53,16 @@ public class Futures extends ListActivity {
 	private QuoteGetterService quoteBinder;
 
 	// Indices don't change
-	public static final String[] indices = { "DJIA INDEX", "S&P 500",
-			"NASDAQ 100", "S&P/TSX 60", "MEX BOLSA", "BOVESPA",
-			"DJ EURO STOXX 50", "FTSE 100", "CAC 40 10 EURO", "DAX", "IBEX 35",
-			"FTSE MIB", "AMSTERDAM", "OMXS30", "SWISS MARKET", "NIKKEI 225",
-			"HANG SENG", "SPI 200" };
+	public static final String[] indices = {"DJIA INDEX", "S&P 500",
+		"NASDAQ 100", "S&P/TSX 60 IX", "MEX BOLSA IDX", "BOVESPA INDEX",
+		"EURO STOXX 50", "FTSE 100 IDX", "CAC40 10 EURO", "DAX INDEX", "IBEX 35 INDX",
+		"FTSE/MIB IDX", "AMSTERDAM IDX", "OMXS30 IND", "SWISS MKT IX",
+		"NIKKEI 225 (OSE)",
+		"HANG SENG IDX", "SPI 200", "CSI 300 IDX FUTUR"};
 
 	String displayedIndices;
 
-	boolean[] checkedIndices = new boolean[18];
+	boolean[] checkedIndices = new boolean[19];
 
 	private boolean mIsBound;
 
@@ -103,8 +104,8 @@ public class Futures extends ListActivity {
 			mIsBound = true;
 			// Tell the service we are bound to it
 			quoteBinder.connect(true);
-
-			Futures.this.getFreshQuotes();
+			quoteBinder.update();
+//			Futures.this.getFreshQuotes();
 
 		}
 
@@ -176,7 +177,7 @@ public class Futures extends ListActivity {
 
 		if (mIsBound) {
 			quoteBinder.connect(false);
-			unregisterReceiver(receiver);
+
 			Log.d(TAG, "Unbinding service");
 			unbindService(mConnection);
 
@@ -261,7 +262,7 @@ public class Futures extends ListActivity {
 	@Override
 	public void onPause() {
 		super.onPause();
-
+		unregisterReceiver(receiver);
 		doUnbindService();
 
 	}
@@ -269,6 +270,9 @@ public class Futures extends ListActivity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		
+		stopService(new Intent(this, QuoteGetterService.class));
+		
 		/*
 		 * SharedPreferences.Editor editor = pref.edit();
 		 * 

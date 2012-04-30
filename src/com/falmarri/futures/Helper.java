@@ -1,21 +1,13 @@
 package com.falmarri.futures;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import org.apache.http.client.ClientProtocolException;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 import android.util.Log;
 
@@ -25,17 +17,17 @@ public class Helper {
 	public static final String URL = "http://www.bloomberg.com/markets/stocks/futures/";
 	public static final String YRL = "http://finance.yahoo.com/d/quotes.csv?s={0}&f={1}";
 	public static final String DEFAULT_DATA = "nsol1c";
-	private static final Pattern p = Pattern.compile("<tr(?: class=\"even\")?>\\s*<td class=\"name\">([A-Z0-9&/ ]+)</td>\\s*<td class=\"value\">([0-9\\.,]+)</td>\\s*<td\\s+class=\"change value_(up|down)\">([-0-9\\.,]+)</td>\\s*<td class=\"value\">([0-9\\.,]+)</td>\\s*<td class=\"value\">([0-9\\.,]+)</td>\\s*<td class=\"value\">([0-9\\.,]+)</td>\\s*<td class=\"datetime\">([0-9\\./,:]+)</td>\\s*</tr>");
+	private static final Pattern p = Pattern.compile("<tr(?: class='(?:even|odd)')?>\\s*<td class='name'>([A-Z0-9&/ ]+)</td>\\s*<td class='date'>[a-zA-Z0-9 ]+</td>\\s*<td class='value'>\\s*([0-9\\.,]+)\\s*</td>\\s*<td\\s+class='value_change (up|down)'>\\s*([-+0-9\\.,]+)\\s*</td>\\s*<td class='value'>\\s*([0-9\\.,]+)\\s*</td>\\s*<td class='value'>\\s*([0-9\\.,]+)</td>\\s*<td class='value'>\\s*([0-9\\.,]+)\\s*</td>\\s*<td class='time last'>\\s*([0-9\\./,:]+)\\s*</td>\\s*</tr>");
     
 	
 	private static final String[] americas = { "DJIA INDEX", "S&P 500",
-		"NASDAQ 100", "S&P/TSX 60", "MEX BOLSA", "BOVESPA"};
+		"NASDAQ 100", "S&P/TSX 60 IX", "MEX BOLSA IDX", "BOVESPA INDEX"};
 	
-	private static final String[] europe = {"DJ EURO STOXX 50", "FTSE 100", "CAC 40 10 EURO", "DAX", "IBEX 35",
-		"FTSE MIB", "AMSTERDAM", "OMXS30", "SWISS MARKET"};
+	private static final String[] europe = {"EURO STOXX 50", "FTSE 100 IDX", "CAC40 10 EURO", "DAX INDEX", "IBEX 35 INDX",
+		"FTSE/MIB IDX", "AMSTERDAM IDX", "OMXS30 IND", "SWISS MKT IX"};
 	
-	private static final String[] asia = {"NIKKEI 225",
-		"HANG SENG", "SPI 200" };
+//	private static final String[] asia = {"NIKKEI 225 (OSE)",
+//		"HANG SENG IDX", "SPI 200", "CSI 300 IDX FUTUR" };
 	
 	
 	
@@ -51,7 +43,7 @@ public class Helper {
 		String r = "";
 		while( m.find()) {
 			
-			String region = Arrays.asList(americas).contains(m.group(1).trim()) ? "Americas" : Arrays.asList(europe).contains(m.group(1)) ? "Eruope" : "Asia";
+			String region = Arrays.asList(americas).contains(m.group(1).trim()) ? "Americas" : Arrays.asList(europe).contains(m.group(1)) ? "Europe" : "Asia";
 			if (!region.equals(r)){
 				quotes.add(new Quote(region));
 				r = region;

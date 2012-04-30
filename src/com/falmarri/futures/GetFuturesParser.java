@@ -1,14 +1,8 @@
 package com.falmarri.futures;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -18,7 +12,7 @@ import android.util.Log;
 
 public class GetFuturesParser extends DefaultHandler{
 	
-	private static final String URL = "http://www.bloomberg.com/markets/stocks/futures.html";
+	//private static final String URL = "http://www.bloomberg.com/markets/stocks/futures.html";
 	
 	private boolean inStockPortion = false;
 	

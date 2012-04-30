@@ -3,11 +3,9 @@ package com.falmarri.futures;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 
 import org.apache.http.client.ClientProtocolException;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -19,12 +17,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Binder;
-import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
@@ -53,11 +46,11 @@ public class QuoteGetterService extends Service {
 
 	private Intent broadcast = new Intent(BROADCAST_UPDATED);
 	
-	private Intent update = new Intent(BROADCAST_UPDATE_NOW);
+	//private Intent update = new Intent(BROADCAST_UPDATE_NOW);
 
 	String displayedIndices;
 
-	private boolean activityConnected = false;
+	//private boolean activityConnected = false;
 
 	Time updated;
 
@@ -109,7 +102,7 @@ public class QuoteGetterService extends Service {
 
 	public void connect(boolean a) {
 
-		activityConnected = a;
+		//activityConnected = a;
 
 		if (a) {
 			//update();
@@ -200,14 +193,16 @@ public class QuoteGetterService extends Service {
 		
 		registerReceiver(receiver,new IntentFilter(QuoteGetterService.BROADCAST_UPDATE_NOW));
 
-		AlarmManager mgr = (AlarmManager) getApplicationContext()
-				.getSystemService(Context.ALARM_SERVICE);
-
-		PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(),
-				0, update, 0);
-
-		mgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock
-				.elapsedRealtime(), AlarmManager.INTERVAL_HALF_HOUR, pi);
+		
+		
+//		AlarmManager mgr = (AlarmManager) getApplicationContext()
+//				.getSystemService(Context.ALARM_SERVICE);
+//
+//		PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(),
+//				0, update, 0);
+//
+//		mgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock
+//				.elapsedRealtime(), AlarmManager.INTERVAL_HALF_HOUR, pi);
 
 	}
 	
@@ -316,6 +311,8 @@ public class QuoteGetterService extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 		Log.i(Futures.TAG, "Service going down");
+		unregisterReceiver(receiver);
+
 		pref.unregisterOnSharedPreferenceChangeListener(prefListener);
 
 	}
